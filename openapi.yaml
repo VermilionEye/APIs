@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: Game Store API
+  version: 1.0.0
+paths:
+  /games:
+    get:
+      summary: Получить список всех игр
+      responses:
+        '200':
+          description: Список всех игр
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+    post:
+      summary: Добавить новую игру
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        '201':
+          description: Игра успешно добавлена
+        '400':
+          description: Неверные данные
+  /games/{id}:
+    get:
+      summary: Получить информацию об игре по ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Информация об игре
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '404':
+          description: Игра не найдена
+    put:
+      summary: Обновить информацию об игре
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        '200':
+          description: Игра успешно обновлена
+        '400':
+          description: Неверные данные
+        '404':
+          description: Игра не найдена
+    delete:
+      summary: Удалить игру
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: Игра успешно удалена
+        '404':
+          description: Игра не найдена
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        genre:
+          type: string
